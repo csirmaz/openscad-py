@@ -175,6 +175,15 @@ class Object:
         return Union(child=Collection.c(objects)._add(self))
 
 
+class Header:
+    
+    def __init__(self, draft: bool = True):
+        self.draft = draft
+        
+    def render(self):
+        return "" if self.draft else "$fa=6;$fs=0.1;"
+
+
 class Cube(Object):
     """A 3D primitive, cube"""
     
