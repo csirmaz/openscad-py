@@ -219,7 +219,7 @@ class Cylinder(Object):
         length = v.length()
         assert length != 0
         z = Point([0, 0, 1])
-        r = v.cross(z).norm()
+        r = z.cross(v).norm()
         rangle = v.angle(z)
         if r.length() == 0:
             # The cylinder is in the Z direction
