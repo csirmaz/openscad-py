@@ -177,11 +177,17 @@ class Object:
 
 class Header:
     
-    def __init__(self, draft: bool = True):
-        self.draft = draft
+    def __init__(self, quality: str = 'draft'):
+        self.quality = quality
         
     def render(self):
-        return "" if self.draft else "$fa=6;$fs=0.1;"
+        if self.quality == 'draft':
+            return ""
+        if self.quality == 'mid':
+            return "$fa=12;$fs=0.2;"
+        if self.quality == 'best':
+            return "$fa=6;$fs=0.1;"
+        raise ValueError("Unknown quality")
 
 
 class Cube(Object):
