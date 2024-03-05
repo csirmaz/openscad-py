@@ -23,3 +23,13 @@ becomes
 translate(v=[0, 0, 1]) { cube(size=[1, 1, 2], center=false); }
 ```
 
+## Notable convenience functions
+
+- Usual computational geometry functions on the `Point` class that work in an arbitrary number of dimensions. Overloads for algebraic operators
+
+- `Cylinder.from_ends` constructs a cylinder between two given points in space
+
+- `Polyhedron.tube` creates a tube-like or toroid polyhedron from a 2D array of points
+
+- `PathTube` creates a tube-like or toroid polyhedron from an arbitrary path
+
