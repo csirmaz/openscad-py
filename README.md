@@ -13,10 +13,10 @@ It also contains convenience functions to define a wider range of primitives, as
 ## Example
 
 ```
-Cube([1, 1, 2]).move([0, 0, 1])
+Cube([1, 1, 2]).move([0, 0, 1]).render()
 ```
 
-becomes
+returns
 
 
 ```
@@ -25,11 +25,29 @@ translate(v=[0, 0, 1]) { cube(size=[1, 1, 2], center=false); }
 
 ## Notable convenience functions
 
-- Usual computational geometry functions on the `Point` class that work in an arbitrary number of dimensions. Overloads for algebraic operators
+Usual computational geometry functions on the `Point` class that work in an arbitrary number of dimensions. Overloads for algebraic operators.
 
-- `Cylinder.from_ends` constructs a cylinder between two given points in space
+```
+distance = (Point((0, 0, 1)) - Point((1, 0, 1))).length()
+angle_between = Point((0, 0, 1) * 2).angle(Point((1, 0, 1)))
+```
 
-- `Polyhedron.tube` creates a tube-like or toroid polyhedron from a 2D array of points
+`Cylinder.from_ends()` constructs a cylinder between two given points in space
 
-- `PathTube` creates a tube-like or toroid polyhedron from an arbitrary path
+```
+openscad_code = Cylinder.from_ends(radius=2, p1=(0, 0, 1), p2=(1, 0, 2)).render()
+```
 
+`Polyhedron.tube()` creates a tube-like or toroid polyhedron from a 2D array of points
+
+`PathTube` creates a tube-like or toroid polyhedron from an arbitrary path
+
+```
+PathTube(
+    points=[(0,0,0), (0,0,1), (1,0,2), (1,1,0), (0,.5,0)],
+    radius=.2,
+    fn=4
+)
+```
+
+![PathTube example](https://raw.github.com/csirmaz/openscad-py/master/images/pathtube.png)

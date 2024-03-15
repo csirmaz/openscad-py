@@ -9,14 +9,14 @@ NP_TYPE = np.float_
 
 
 class Point:
-    """Represents a point of vector in arbitrary dimensions"""
+    """Represents a point or vector in arbitrary dimensions"""
     
     def __init__(self, coords):
         self.c = np.array(coords, dtype=NP_TYPE)
         
     @classmethod
     def c(cls, coords: TUnion[list, 'Point']) -> 'Point':
-        """Ensure coords is an instance of Point"""
+        """Ensure coords is an instance of Point (idempotent)"""
         if isinstance(coords, Point):
             return coords
         return Point(coords)
@@ -177,10 +177,12 @@ class Object:
         return Difference(subject=self, tool=tool)
 
     def union(self, objects: TUnion[list, 'Object']) -> 'Object':
+        """Form the union of self and an object or list of objects"""
         return Union(child=Collection.c(objects)._add(self))
 
 
 class Header:
+    """Render a header (setting global values) of an OpensCAD file"""
     
     def __init__(self, quality: str = 'draft'):
         self.quality = quality
@@ -451,13 +453,14 @@ class Polygon(Object):
 
 
 class Collection(Object):
+    """Represents a collection of objects"""
     
     def __init__(self, coll: list):
         self.collection = coll
 
     @classmethod
     def c(cls, coll: TUnion[list, Object]) -> Object:
-        """Cast lists to collections"""
+        """Ensure the list of objects is a Collection (idempotent)"""
         if isinstance(coll, Object):
             return coll
         return cls(coll)
@@ -494,8 +497,8 @@ class Rotate(Object):
 
 class Scale(Object):
 
-    def __init__(self, v: TUnion[list, Point, float], child: Object):
-        if isinstance(v, float):
+    def __init__(self, v: TUnion[list, Point, float, int], child: Object):
+        if isinstance(v, float) or isinstance(v, int):
             v = [v, v, v]
         self.v = Point.c(v)
         self.child = child
