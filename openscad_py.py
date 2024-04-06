@@ -100,6 +100,16 @@ class Point:
         if mode == "deg":
             return r / math.pi * 180.
         raise ValueError("Unknown mode")
+    
+    def z_slope(self, mode: str = "deg") -> float:
+        """Return the slope of a vector in degrees or radians"""
+        r = self.c[2] / self.length()
+        r = math.asin(r)
+        if mode == "rad":
+            return r
+        if mode == "deg":
+            return r / math.pi * 180.
+        raise ValueError("Unknown mode")        
 
     def rotate(self, coords, angle: float) -> 'Point':
         """Rotate. coords is a list of 2 coordinate indices that we rotate"""
@@ -169,8 +179,17 @@ class Object:
         return Color(r=r, g=g, b=b, a=a, child=self)
 
     def extrude(self, height, convexity = 10, center: bool = False) -> 'Object':
-        """Apply a linear extrusion"""
+        """Apply a linear extrusion,
+        If center is false the linear extrusion Z range is from 0 to height; if it is true, the range is from -height/2 to height/2."""
         return LinearExtrude(height=height, child=self, convexity=convexity, center=center)
+    
+    def radial_offset(self, r):
+        """A new 2d interior or exterior outline from an existing outline"""
+        return RadialOffset(r=r, child=self)
+    
+    def delta_offset(self, delta, chamfer=False):
+        """A new 2d interior or exterior outline from an existing outline"""
+        return DeltaOffset(delta=delta, child=self, chamfer=chamfer)
 
     def diff(self, tool: TUnion[list, 'Object']) -> 'Object':
         """Remove from the object using a difference operator"""
@@ -518,7 +537,8 @@ class Color(Object):
 
 
 class LinearExtrude(Object):
-    """Represents a linear extrusion applied to an object"""
+    """Represents a linear extrusion applied to an object.
+    If center is false the linear extrusion Z range is from 0 to height; if it is true, the range is from -height/2 to height/2."""
 
     def __init__(self, height, child: Object, convexity = 10, center: bool = False):
         self.height = height
@@ -529,6 +549,32 @@ class LinearExtrude(Object):
 
     def render(self) -> str:
         return f"linear_extrude(height={self.height}, center={self._center()}, convexity={self.convexity}){{\n{self.child.render()}\n}}"
+
+
+class RadialOffset(Object):
+    """A new 2d interior or exterior outline from an existing outline"""
+    # https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset
+    
+    def __init__(self, r, child: Object):
+        self.r = r
+        self.child = child
+        # $fa, $fs, and $fn
+        
+    def render(self) -> str:
+        return f"offset(r={self.r}){{\n{self.child.render()}\n}}"
+
+
+class DeltaOffset(Object):
+    """A new 2d interior or exterior outline from an existing outline"""
+    # https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset
+    
+    def __init__(self, delta, child: Object, chamfer: bool = False):
+        self.delta = delta
+        self.child = child
+        self.chamfer = chamfer
+        
+    def render(self) -> str:
+        return f"offset(delta={delta}, chamfer={'true' if self.chamfer else 'false'}){{\n{self.child.render()}\n}}"
 
 
 class Union(Object):
