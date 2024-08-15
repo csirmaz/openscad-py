@@ -291,10 +291,20 @@ class Polyhedron(Object):
         self.convexity = convexity
 
     @classmethod
-    def tube(cls, points: List[List[TUnion[list, Point]]], convexity: int = 10):
+    def torus(cls, points: List[List[TUnion[list, Point]]], convexity: int = 10):
+        """Construct a torus-like polyhedron from a 2D array of points.
+        Each row of points must be oriented clickwise when looking from the first row (loop) toward the next.
+        The rows of points form loops.
+        """
+        return cls.tube(points=points, convexity=convexity, make_torus=True)
+                
+
+    @classmethod
+    def tube(cls, points: List[List[TUnion[list, Point]]], convexity: int = 10, make_torus: bool = False):
         """Construct a tube-like polyhedron from a 2D array of points.
         Each row of points must be oriented clockwise when looking at the pipe at the start inwards.
         The rows of points form loops.
+        If `make_torus`, create a torus-like shape instead of a pipe with ends.
         """
         rows = len(points)
         row_len = len(points[0])
@@ -323,11 +333,23 @@ class Polyhedron(Object):
                 point_map[(row_ix-1, row_len-1)]
             ])
             
-        # Starting cap
-        faces.append([point_map[(0,x)] for x in range(row_len)])
-        
-        # Ending cap
-        faces.append([point_map[(rows-1,row_len-1-x)] for x in range(row_len)])
+        if not make_torus:
+            
+            # Starting cap
+            faces.append([point_map[(0,x)] for x in range(row_len)])
+            # Ending cap
+            faces.append([point_map[(rows-1,row_len-1-x)] for x in range(row_len)])
+            
+        else:
+            
+            # Connect the end to the start
+            for col_ix in range(1, row_len):
+                faces.append([
+                    point_map[(0, col_ix-1)],
+                    point_map[(0, col_ix)],
+                    point_map[(rows-1, col_ix)],
+                    point_map[(rows-1, col_ix-1)]
+                ])
         
         return cls(points=point_list, faces=faces, convexity=convexity)
                 
@@ -339,10 +361,18 @@ class Polyhedron(Object):
 class PathTube(Object):
     """Creates a tube-like or toroid polyhedron from a path (list of points)."""
     
-    def __init__(self, points: List[TUnion[list, Point]], radius: float, fn: int, convexity: int = 10):
+    def __init__(self, points: List[TUnion[list, Point]], radius: TUnion[float, list], fn: int, make_torus: bool = False, convexity: int = 10):
+        """
+        points: The list of points
+        radius: A float or a list of floats for each point
+        fn: int, The number of sides
+        make_torus: bool, Whether to make a torus instead of a pipe with ends. Warning: the last segment may be twisted.
+        convexity: see openscad
+        """
         self.points = [Point.c(p) for p in points]
-        self.radius = radius
-        self.fn = fn  # number of sides
+        self.radii = radius if isinstance(radius, list) else [radius for p in points]
+        self.fn = fn
+        self.make_torus = make_torus
         self.convexity = convexity
     
     def process(self, debug: bool = False) -> Polyhedron:
@@ -351,7 +381,7 @@ class PathTube(Object):
         for ix, point in enumerate(self.points):
             if debug: print(f"//LOOP {ix}: {point.render()}")
             
-            if ix == 0:
+            if (not self.make_torus) and ix == 0:
                 # Start of the path
                 v = self.points[1].sub(point)  # vector toward the first point
                 z_point = Point([0,0,1])
@@ -364,11 +394,11 @@ class PathTube(Object):
                 points = []
                 for i in range(self.fn):
                     a = math.pi*2*i/self.fn
-                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radius + point)
+                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radii[ix] + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
-            elif ix == len(self.points) - 1:
+            elif (not self.make_torus) and ix == len(self.points) - 1:
                 # End of the path
                 v = point.sub(self.points[-2])
                 seam2 = v.cross(seam).norm()
@@ -376,15 +406,17 @@ class PathTube(Object):
                 points = []
                 for i in range(self.fn):
                     a = math.pi*2*i/self.fn
-                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radius + point)
+                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radii[ix] + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
             else:
                 # Middle of the path
+                iprev = ix - 1 if ix > 0 else len(self.points) - 1
+                inext = ix + 1 if ix < len(self.points) - 1 else 0
                 # (p[-1]) -va-> (p[0]) -vb-> (p[1])
-                va = point.sub(self.points[ix-1]).norm()  # vector incoming to this elbow
-                vb = self.points[ix+1].sub(point).norm()  # vector going out from this elbow
+                va = point.sub(self.points[iprev]).norm()  # vector incoming to this elbow
+                vb = self.points[inext].sub(point).norm()  # vector going out from this elbow
                 if debug: print(f"//Middle. va={va.render()} vb={vb.render()}")
                 # Get the vector perpendicular to va that points to the inside of the cylinder around va according
                 # to the elbow at p[0]. This is the component of vb in a basis defined by va.
@@ -400,15 +432,23 @@ class PathTube(Object):
                 vb_inner = va_perp.scale(-1).norm()  # Here we want to project -va onto vb
                 if debug: print(f"//  va_inner={va_inner.render()} vb_inner={vb_inner.render()}")
                 
-                # The new seam on vb (seam_b) has the same angle to vb_inner as it had on va to va_inner
-                seam_angle = seam.angle(va_inner, mode="rad")
-                # need to figure out the sign of the angle
-                if seam_angle != 0:
-                    if va_inner.cross(seam).dot(va) < 0:
-                        seam_angle = -seam_angle
+                if ix == 0:
+                    # We just choose a seam when making a torus
+                    seam_angle = 0
+                else:
+                    # The new seam on vb (seam_b) has the same angle to vb_inner as it had on va to va_inner
+                    seam_angle = seam.angle(va_inner, mode="rad")
+                    # need to figure out the sign of the angle
+                    if seam_angle != 0:
+                        if va_inner.cross(seam).dot(va) < 0:
+                            seam_angle = -seam_angle
                 vb_inner2 = vb.cross(vb_inner).norm()
                 seam_b = vb_inner*math.cos(seam_angle) + vb_inner2*math.sin(seam_angle)
-                if debug: print(f"//  seam={seam.render()} seam_b={seam_b.render()}")
+                if debug:
+                    if ix == 0:
+                        print(f"//  seam=N/A seam_b={seam_b.render()}")
+                    else:
+                        print(f"//  seam={seam.render()} seam_b={seam_b.render()}")
                 
                 vangle = va.scale(-1).angle(vb, mode="rad")
                 long_inner = (vb-va).norm().scale(1/math.sin(vangle/2))
@@ -419,13 +459,13 @@ class PathTube(Object):
                 for i in range(self.fn):
                     # We draw the ellipse according to long_inner and short, but use seam_angle to get the right points
                     a = math.pi*2*i/self.fn + seam_angle
-                    points.append((long_inner*math.cos(a) + short*math.sin(a))*self.radius + point)
+                    points.append((long_inner*math.cos(a) + short*math.sin(a))*self.radii[ix] + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
                 seam = seam_b
         
-        return Polyhedron.tube(points=points_rows, convexity=self.convexity)
+        return Polyhedron.tube(points=points_rows, convexity=self.convexity, make_torus=self.make_torus)
     
     def render(self) -> str:
         return self.process().render()
