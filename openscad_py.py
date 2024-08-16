@@ -144,6 +144,9 @@ class Point:
     def __rmul__(self, other):
         return self.scale(other)
     
+    def __neg__(self):
+        return self.scale(-1.)
+    
 
 class Object:
     """Abstract class for an SCAD object"""
@@ -291,20 +294,28 @@ class Polyhedron(Object):
         self.convexity = convexity
 
     @classmethod
-    def torus(cls, points: List[List[TUnion[list, Point]]], convexity: int = 10):
+    def torus(cls, points: List[List[TUnion[list, Point]]], torus_connect_offset: int = 0, convexity: int = 10):
         """Construct a torus-like polyhedron from a 2D array of points.
         Each row of points must be oriented clickwise when looking from the first row (loop) toward the next.
         The rows of points form loops.
+
+        points: A 2D array of points
+        torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+        convexity: int, see OpensCAD
         """
-        return cls.tube(points=points, convexity=convexity, make_torus=True)
+        return cls.tube(points=points, convexity=convexity, make_torus=True, torus_connect_offset=torus_connect_offset)
                 
 
     @classmethod
-    def tube(cls, points: List[List[TUnion[list, Point]]], convexity: int = 10, make_torus: bool = False):
+    def tube(cls, points: List[List[TUnion[list, Point]]], make_torus: bool = False, torus_connect_offset: int = 0, convexity: int = 10):
         """Construct a tube-like polyhedron from a 2D array of points.
         Each row of points must be oriented clockwise when looking at the pipe at the start inwards.
         The rows of points form loops.
-        If `make_torus`, create a torus-like shape instead of a pipe with ends.
+        
+        points: A 2D array of points
+        make_torus: bool, Whether to create a torus-like shape instead of a pipe with ends
+        torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+        convexity: int, see OpensCAD
         """
         rows = len(points)
         row_len = len(points[0])
@@ -343,12 +354,12 @@ class Polyhedron(Object):
         else:
             
             # Connect the end to the start
-            for col_ix in range(1, row_len):
+            for col_ix in range(row_len):
                 faces.append([
-                    point_map[(0, col_ix-1)],
-                    point_map[(0, col_ix)],
-                    point_map[(rows-1, col_ix)],
-                    point_map[(rows-1, col_ix-1)]
+                    point_map[(0, (col_ix-1+torus_connect_offset)%row_len)],
+                    point_map[(0, (col_ix+torus_connect_offset)%row_len)],
+                    point_map[(rows-1, col_ix%row_len)],
+                    point_map[(rows-1, (col_ix-1)%row_len)]
                 ])
         
         return cls(points=point_list, faces=faces, convexity=convexity)
