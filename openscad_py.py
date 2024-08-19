@@ -201,6 +201,10 @@ class Object:
     def union(self, objects: TUnion[list, 'Object']) -> 'Object':
         """Form the union of self and an object or list of objects"""
         return Union(child=Collection.c(objects)._add(self))
+    
+    def intersection(self, objects: TUnion[list, 'Object']) -> 'Object':
+        """Get the intersection of self and an object of list of objects"""
+        return Intersection(child=Collection.c(objects)._add(self))
 
 
 class Header:
