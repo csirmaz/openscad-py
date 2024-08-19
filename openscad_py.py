@@ -186,6 +186,10 @@ class Object:
         If center is false the linear extrusion Z range is from 0 to height; if it is true, the range is from -height/2 to height/2."""
         return LinearExtrude(height=height, child=self, convexity=convexity, center=center)
     
+    def rotate_extrude(self, angle, convexity = 10) -> 'Object':
+        """Apply a rotational extrusion. For all points x >= 0 must be true."""
+        return RotateExtrude(angle=angle, child=self, convexity=convexity)
+    
     def radial_offset(self, r):
         """A new 2d interior or exterior outline from an existing outline"""
         return RadialOffset(r=r, child=self)
@@ -308,7 +312,6 @@ class Polyhedron(Object):
         convexity: int, see OpensCAD
         """
         return cls.tube(points=points, convexity=convexity, make_torus=True, torus_connect_offset=torus_connect_offset)
-                
 
     @classmethod
     def tube(cls, points: List[List[TUnion[list, Point]]], make_torus: bool = False, torus_connect_offset: int = 0, convexity: int = 10):
@@ -512,9 +515,9 @@ class Circle(Object):
 
 
 class Polygon(Object):
-    """A 2D primitive, polygon"""
+    """A 2D primitive, polygon. Use points/lists with 2 coordinates."""
 
-    def __init__(self, points, paths=None, convexity=1):
+    def __init__(self, points, paths=None, convexity=10):
         assert paths is None  # not implemented yet
         self.points = [Point.c(p) for p in points]
         self.convexity = convexity
@@ -595,7 +598,7 @@ class LinearExtrude(Object):
     """Represents a linear extrusion applied to an object.
     If center is false the linear extrusion Z range is from 0 to height; if it is true, the range is from -height/2 to height/2."""
 
-    def __init__(self, height, child: Object, convexity = 10, center: bool = False):
+    def __init__(self, height, child: Object, convexity: int = 10, center: bool = False):
         self.height = height
         self.child = child
         self.convexity = convexity
@@ -605,6 +608,21 @@ class LinearExtrude(Object):
     def render(self) -> str:
         return f"linear_extrude(height={self.height}, center={self._center()}, convexity={self.convexity}){{\n{self.child.render()}\n}}"
 
+
+class RotateExtrude(Object):
+    """Represents a rotational extrusion of a (2D) object.
+    For all points, x>=0 must hold.
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/2D_to_3D_Extrusion"""
+    
+    def __init__(self, angle, child: Object, convexity: int = 10):
+        self.angle = angle
+        self.child = child
+        self.convexity = convexity
+        # $fa, $fs, $fn
+        
+    def render(self) -> str:
+        return f"rotate_extrude(angle={self.angle}, convexity={self.convexity}) {{\n{self.child.render()}\n}}"
+    
 
 class RadialOffset(Object):
     """A new 2d interior or exterior outline from an existing outline"""
