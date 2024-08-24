@@ -51,3 +51,5 @@ PathTube(
 ```
 
 ![PathTube example](https://raw.github.com/csirmaz/openscad-py/master/images/pathtube.png)
+
+`Polyhedron.render_stl()` export a polyhedra into STL directly

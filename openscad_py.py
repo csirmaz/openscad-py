@@ -24,6 +24,9 @@ class Point:
     def render(self) -> str:
         """Render the point into a SCAD script"""
         return "[" + (",".join([str(c) for c in self.c])) + "]"
+    
+    def render_stl(self) -> str:
+        return " ".join([str(c) for c in self.c])
 
     def scale(self, x: float) -> 'Point':
         """Scale the current vector/point by a scalar"""
@@ -374,6 +377,59 @@ class Polyhedron(Object):
     def render(self) -> str:
         faces_list = [f"[{','.join([str(x) for x in face])}]" for face in self.faces]
         return f"polyhedron(points=[{','.join([p.render() for p in self.points])}], faces=[{','.join(faces_list)}], convexity={self.convexity});"
+    
+    def render_stl(self) -> str:
+        """Export the polyhedron as an STL file"""
+        stl = []
+        
+        def write_triangle(p1, p2, p3):
+            normal = (p2 - p1).cross(p3 - p1)
+            if normal.is_zero():
+                # Degenerate triangle
+                return
+            normal = normal.norm()
+            stl.append("facet normal " + normal.render_stl())
+            stl.append("outer loop")
+            for p in [p1, p2, p3]:
+                stl.append("vertex " + p.render_stl())
+            stl.append("endloop")
+            stl.append("endfacet")
+        
+        stl.append("solid oscpy")
+        for face in self.faces:
+            face = [self.points[i] for i in face]
+            # stl.append(f"# FACE {len(face)} {','.join([p.render() for p in face])}")
+            if len(face) < 3:
+                raise Exception("Face has less than 3 points")
+            elif len(face) == 3:
+                write_triangle(face[0], face[1], face[2])
+            elif len(face) == 4:
+                # Decide which diagonal is best to break on
+                d1 = face[0].sub(face[2]).length()
+                d2 = face[1].sub(face[3]).length()
+                if d1 < d2:
+                    write_triangle(face[0], face[1], face[2])
+                    write_triangle(face[0], face[2], face[3])
+                else:
+                    write_triangle(face[0], face[1], face[3])
+                    write_triangle(face[1], face[2], face[3])
+            else:
+                # Add central point and split face in a star-shaped form
+                # of course this won't always work on concave faces
+                s = None
+                for p in face:
+                    if s is None:
+                        s = p
+                    else:
+                        s += p
+                s = s.scale(1 / len(face))
+                for i in range(len(face)):
+                    i_next = i + 1
+                    if i_next > len(face) - 1:
+                        i_next = 0
+                    write_triangle(face[i], face[i_next], s)
+        stl.append("endsolid oscpy")
+        return "\n".join(stl)
 
 
 class PathTube(Object):
