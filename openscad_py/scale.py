@@ -16,6 +16,7 @@ class Scale(Object):
         self.child = child
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"scale(v={self.v.render()}){{\n{self.child.render()}\n}}"
 
 

@@ -14,13 +14,12 @@ class Sphere(Object):
     See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#sphere
     """
 
-
     def __init__(self, r):
         self.r = r
         # $fa, $fs, $fn
 
-        
     def render(self):
+        """Render the object into OpenSCAD code"""
         return f"sphere(r={self.r});"
 
 

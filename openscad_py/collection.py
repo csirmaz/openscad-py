@@ -22,5 +22,6 @@ class Collection(Object):
         return self.__class__(self.collection + [obj])
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return "\n".join([o.render() for o in self.collection])
 

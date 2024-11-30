@@ -119,6 +119,7 @@ class PathTube(Object):
         return Polyhedron.tube(points=points_rows, convexity=self.convexity, make_torus=self.make_torus)
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return self.process().render()
 
 

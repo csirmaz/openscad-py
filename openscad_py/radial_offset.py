@@ -19,6 +19,7 @@ class RadialOffset(Object):
         # $fa, $fs, and $fn
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"offset(r={self.r}){{\n{self.child.render()}\n}}"
 
 

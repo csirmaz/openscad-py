@@ -8,11 +8,12 @@ class Header:
 
 
     def __init__(self, quality: str = 'draft'):
+        # See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Other_Language_Features#Circle_resolution:_$fa,_$fs,_and_$fn
         self.quality = quality
 
 
     def render(self):
-        # See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Other_Language_Features#Circle_resolution:_$fa,_$fs,_and_$fn
+        """Return OpenSCAD code"""
         if self.quality == 'draft':
             return ""
         if self.quality == 'mid':

@@ -22,7 +22,7 @@ class Point:
         return Point(coords)
 
     def render(self) -> str:
-        """Render the point into a SCAD script"""
+        """Render the object into OpenSCAD code"""
         return "[" + (",".join([str(c) for c in self.c])) + "]"
     
     def render_stl(self) -> str:

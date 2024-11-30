@@ -18,6 +18,7 @@ class Object:
         return Collection([self, obj])
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         raise Exception("abstract method")
 
     def translate(self, v: TUnion[list, Point]) -> 'Object':

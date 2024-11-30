@@ -20,6 +20,7 @@ class LinearExtrude(Object):
         # twist, slices, scale (float/vector), $fn
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"linear_extrude(height={self.height}, center={self._center()}, convexity={self.convexity}){{\n{self.child.render()}\n}}"
 
 

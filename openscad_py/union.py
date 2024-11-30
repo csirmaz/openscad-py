@@ -15,6 +15,7 @@ class Union(Object):
         self.child = Collection.c(child)
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"union(){{ {self.child.render()} }}"
 
     def union(self, objects: TUnion[list, Object]) -> Object:

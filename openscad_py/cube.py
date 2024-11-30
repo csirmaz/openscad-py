@@ -20,5 +20,6 @@ class Cube(Object):
         self.center = center
 
     def render(self):
+        """Render the object into OpenSCAD code"""
         return f"cube(size={self.size.render()}, center={self._center()});"
 

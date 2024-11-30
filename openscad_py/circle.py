@@ -29,6 +29,7 @@ class Circle(Object):
         return cls(r=r, fn=sides)
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         fnstr = '' if self.fn is None else f", $fn={self.fn}"
         return f"circle(r={self.r}{fnstr});"
 

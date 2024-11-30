@@ -16,5 +16,6 @@ class Polygon(Object):
         self.convexity = convexity
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"polygon(points=[{','.join([p.render() for p in self.points])}], convexity={self.convexity});"
 

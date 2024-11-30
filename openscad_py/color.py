@@ -13,6 +13,7 @@ class Color(Object):
         self.child = child
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"color(c=[{','.join([str(c) for c in self.color])}]){{ {self.child.render()} }}"
 
 

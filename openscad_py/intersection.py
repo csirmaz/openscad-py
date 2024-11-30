@@ -14,6 +14,7 @@ class Intersection(Object):
         self.child = Collection.c(child)
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"intersection(){{ {self.child.render()} }}"
 
 

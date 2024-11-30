@@ -21,6 +21,7 @@ class RotateExtrude(Object):
         # $fa, $fs, $fn
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"rotate_extrude(angle={self.angle}, convexity={self.convexity}) {{\n{self.child.render()}\n}}"
     
 

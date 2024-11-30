@@ -22,6 +22,7 @@ class Cylinder(Object):
         # $fa, $fs, $fn
 
     def render(self):
+        """Render the object into OpenSCAD code"""
         return f"cylinder(h={self.height}, r1={self.r1}, r2={self.r2}, center={self._center()});"
 
     @classmethod

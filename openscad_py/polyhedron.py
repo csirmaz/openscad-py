@@ -176,6 +176,7 @@ class Polyhedron(Object):
         return cls(points=point_list, faces=faces, convexity=convexity)
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         faces_list = [f"[{','.join([str(x) for x in face])}]" for face in self.faces]
         return f"polyhedron(points=[{','.join([p.render() for p in self.points])}], faces=[{','.join(faces_list)}], convexity={self.convexity});"
 

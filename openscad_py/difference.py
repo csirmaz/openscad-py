@@ -15,5 +15,6 @@ class Difference(Object):
         self.tool = Collection.c(tool)  # what to remove
 
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"difference(){{ {self.subject.render()}\n{self.tool.render()} }}"
 

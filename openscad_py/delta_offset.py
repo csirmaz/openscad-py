@@ -19,5 +19,6 @@ class DeltaOffset(Object):
         self.chamfer = chamfer
         
     def render(self) -> str:
+        """Render the object into OpenSCAD code"""
         return f"offset(delta={delta}, chamfer={'true' if self.chamfer else 'false'}){{\n{self.child.render()}\n}}"
 
