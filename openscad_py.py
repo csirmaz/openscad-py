@@ -297,6 +297,8 @@ class Cylinder(Object):
 class Polyhedron(Object):
     """A 3D primitive, a polyhedron defined by a list of points and faces."""
     # See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron
+    # Faces are defined by lists of point indices. The points of a face must be listed clockwise when
+    # looking at the face from the outside inward.
     # Nonplanar faces should be triangulated by opensCAD
     
     def __init__(self, points: List[TUnion[list, Point]], faces: List[list], convexity: int = 10):
@@ -304,10 +306,11 @@ class Polyhedron(Object):
         self.faces = faces
         self.convexity = convexity
 
+
     @classmethod
     def torus(cls, points: List[List[TUnion[list, Point]]], torus_connect_offset: int = 0, convexity: int = 10):
         """Construct a torus-like polyhedron from a 2D array of points.
-        Each row of points must be oriented clickwise when looking from the first row (loop) toward the next.
+        Each row of points must be oriented clockwise when looking from the first row (loop) toward the next.
         The rows of points form loops.
 
         points: A 2D array of points
@@ -315,6 +318,7 @@ class Polyhedron(Object):
         convexity: int, see OpensCAD
         """
         return cls.tube(points=points, convexity=convexity, make_torus=True, torus_connect_offset=torus_connect_offset)
+
 
     @classmethod
     def tube(cls, points: List[List[TUnion[list, Point]]], make_torus: bool = False, torus_connect_offset: int = 0, convexity: int = 10):
@@ -373,6 +377,91 @@ class Polyhedron(Object):
                 ])
         
         return cls(points=point_list, faces=faces, convexity=convexity)
+    
+    @classmethod
+    def from_heightmap(cls, heights: List[List[float]], base: float = 0., convexity: int = 10):
+        """Construct a polyhedron from a 2D matrix of heights. If the height at [0,0] is Z, it maps
+        to the point (0, 0, Z).
+
+        heights: The 2D matrix of heights
+        base: The height at which the base will be - in the scale of heights (optional; default 0)
+        convexity: see OpenSCAD
+        """
+        rows = len(heights)
+        row_len = len(heights[0])
+        point_list = []
+        point_map = {}  # { (row_ix,col_ix) -> list_ix, ...
+        bottom_point_map = {}
+        for row_ix, row in enumerate(heights):
+            for col_ix, height in enumerate(row):
+                point = Point([row_ix, col_ix, height])
+                bottom_point = Point([row_ix, col_ix, base])
+                
+                point_map[(row_ix, col_ix)] = len(point_list)
+                point_list.append(point)
+                
+                bottom_point_map[(row_ix, col_ix)] = len(point_list)
+                point_list.append(bottom_point)
+                
+        faces = []
+
+        # Surface (top) faces
+        #  r 10 11
+        # c
+        # 10  1  2
+        # 11  4  3
+        for row_ix in range(1, rows):
+            for col_ix in range(1, row_len):
+                faces.append([
+                    point_map[(row_ix-1, col_ix-1)],
+                    point_map[(row_ix, col_ix-1)],
+                    point_map[(row_ix, col_ix)],
+                    point_map[(row_ix-1, col_ix)]
+                ])
+
+        # Bottom faces
+        for row_ix in range(1, rows):
+            for col_ix in range(1, row_len):
+                faces.append([
+                    bottom_point_map[(row_ix-1, col_ix-1)], # 1
+                    bottom_point_map[(row_ix-1, col_ix)], # 4
+                    bottom_point_map[(row_ix, col_ix)], # 3
+                    bottom_point_map[(row_ix, col_ix-1)] # 2
+                ])
+        
+        # Side faces
+        for row_ix in range(1, rows):
+            m = row_len - 1
+            faces.append([
+                point_map[(row_ix-1, m)],
+                point_map[(row_ix, m)],
+                bottom_point_map[(row_ix, m)],
+                bottom_point_map[(row_ix-1, m)]
+            ])
+            faces.append([
+                point_map[(row_ix, 0)],
+                point_map[(row_ix-1, 0)],
+                bottom_point_map[(row_ix-1, 0)],
+                bottom_point_map[(row_ix, 0)]
+            ])
+        
+        for col_ix in range(1, row_len):
+            m = rows - 1
+            faces.append([
+                point_map[(m, col_ix-1)],
+                point_map[(m, col_ix)],
+                bottom_point_map[(m, col_ix)],
+                bottom_point_map[(m, col_ix-1)]
+            ])
+            faces.append([
+                point_map[(0, col_ix)],
+                point_map[(0, col_ix-1)],
+                bottom_point_map[(0, col_ix-1)],
+                bottom_point_map[(0, col_ix)]
+            ])
+            
+        return cls(points=point_list, faces=faces, convexity=convexity)
+
                 
     def render(self) -> str:
         faces_list = [f"[{','.join([str(x) for x in face])}]" for face in self.faces]

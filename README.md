@@ -25,6 +25,8 @@ translate(v=[0, 0, 1]) { cube(size=[1, 1, 2], center=false); }
 
 ## Notable convenience functions
 
+### Computational geometry
+
 Usual computational geometry functions on the `Point` class that work in an arbitrary number of dimensions. Overloads for algebraic operators.
 
 ```
@@ -32,13 +34,21 @@ distance = (Point((0, 0, 1)) - Point((1, 0, 1))).length()
 angle_between = Point((0, 0, 1) * 2).angle(Point((1, 0, 1)))
 ```
 
+### Cylinders
+
 `Cylinder.from_ends()` constructs a cylinder between two given points in space
 
 ```
 openscad_code = Cylinder.from_ends(radius=2, p1=(0, 0, 1), p2=(1, 0, 2)).render()
 ```
 
-`Polyhedron.tube()` creates a tube-like or toroid polyhedron from a 2D array of points
+### Tubes and toroids from a point grid
+
+`Polyhedron.tube()` creates a tube-like polyhedron from a 2D array of points
+
+`Polyhedron.torus()` creates a toroid polyhedron from a 2D array of points
+
+### Tubes from a path
 
 `PathTube` creates a tube-like or toroid polyhedron from an arbitrary path
 
@@ -52,4 +62,23 @@ PathTube(
 
 ![PathTube example](https://raw.github.com/csirmaz/openscad-py/master/images/pathtube.png)
 
-`Polyhedron.render_stl()` export a polyhedra into STL directly
+### Polyhedron from a height map
+
+```
+Polyhedron.from_heightmap(
+    heights=[
+        [3, 3, 1, 1, 1],
+        [3, 3, 1, 1, 1],
+        [1, 1, 1, 1, 1],
+        [1, 1, 1, 2, 2],
+        [1, 1, 1, 2, 2],
+    ],
+    base=-5
+)
+```
+
+![Heightmap example](https://raw.github.com/csirmaz/openscad-py/master/images/heightmap.png)
+
+### Direct STL export
+
+`Polyhedron.render_stl()` exports any polyhedron into STL directly
