@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.3">
+<title>openscad_py.polyhedron API documentation</title>
+<meta name="description" content="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>openscad_py.polyhedron</code></h1>
+</header>
+<section id="section-intro">
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="openscad_py.polyhedron.Polyhedron"><code class="flex name class">
+<span>class <span class="ident">Polyhedron</span></span>
+<span>(</span><span>points: List[list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>],<br>faces: List[list],<br>convexity: int = 10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A 3D primitive, a polyhedron defined by a list of points and faces.
+Faces are defined by lists of point indices. The points of a face must be listed clockwise when
+looking at the face from the outside inward.
+Nonplanar faces should be triangulated by OpenSCAD.</p>
+<p>See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron</a></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Polyhedron(Object):
+    &#34;&#34;&#34;A 3D primitive, a polyhedron defined by a list of points and faces.
+    Faces are defined by lists of point indices. The points of a face must be listed clockwise when
+    looking at the face from the outside inward.
+    Nonplanar faces should be triangulated by OpenSCAD.
+
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron
+    &#34;&#34;&#34;
+
+    def __init__(self, points: List[TUnion[list, Point]], faces: List[list], convexity: int = 10):
+        self.points = [Point.c(p) for p in points]
+        self.faces = faces
+        self.convexity = convexity
+
+    @classmethod
+    def torus(cls, points: List[List[TUnion[list, Point]]], torus_connect_offset: int = 0, convexity: int = 10):
+        &#34;&#34;&#34;Construct a torus-like polyhedron from a 2D array of points.
+        Each row of points must be oriented clockwise when looking from the first row (loop) toward the next.
+        The rows of points form loops.
+
+        points: A 2D array of points
+        torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+        convexity: int, see OpensCAD
+        &#34;&#34;&#34;
+        return cls.tube(points=points, convexity=convexity, make_torus=True, torus_connect_offset=torus_connect_offset)
+
+    @classmethod
+    def tube(cls, points: List[List[TUnion[list, Point]]], make_torus: bool = False, torus_connect_offset: int = 0, convexity: int = 10):
+        &#34;&#34;&#34;Construct a tube-like polyhedron from a 2D array of points.
+        Each row of points must be oriented clockwise when looking at the pipe at the start inwards.
+        The rows of points form loops.
+        
+        points: A 2D array of points
+        make_torus: bool, Whether to create a torus-like shape instead of a pipe with ends
+        torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+        convexity: int, see OpensCAD
+        &#34;&#34;&#34;
+        rows = len(points)
+        row_len = len(points[0])
+        point_list = []
+        point_map = {}  # { (row_ix,col_ix) -&gt; list_ix, ...
+        for row_ix, row in enumerate(points):
+            for col_ix, point in enumerate(row):
+                point_map[(row_ix, col_ix)] = len(point_list)
+                point_list.append(point)
+                
+        faces = []
+        
+        # Side faces
+        for row_ix in range(1, rows):
+            for col_ix in range(1, row_len):
+                faces.append([
+                    point_map[(row_ix, col_ix-1)],
+                    point_map[(row_ix, col_ix)],
+                    point_map[(row_ix-1, col_ix)],
+                    point_map[(row_ix-1, col_ix-1)]
+                ])
+            faces.append([
+                point_map[(row_ix, row_len-1)],
+                point_map[(row_ix, 0)],
+                point_map[(row_ix-1, 0)],
+                point_map[(row_ix-1, row_len-1)]
+            ])
+            
+        if not make_torus:
+            
+            # Starting cap
+            faces.append([point_map[(0,x)] for x in range(row_len)])
+            # Ending cap
+            faces.append([point_map[(rows-1,row_len-1-x)] for x in range(row_len)])
+            
+        else:
+            
+            # Connect the end to the start
+            for col_ix in range(row_len):
+                faces.append([
+                    point_map[(0, (col_ix-1+torus_connect_offset)%row_len)],
+                    point_map[(0, (col_ix+torus_connect_offset)%row_len)],
+                    point_map[(rows-1, col_ix%row_len)],
+                    point_map[(rows-1, (col_ix-1)%row_len)]
+                ])
+        
+        return cls(points=point_list, faces=faces, convexity=convexity)
+
+    @classmethod
+    def from_heightmap(cls, heights: List[List[float]], base: float = 0., convexity: int = 10):
+        &#34;&#34;&#34;Construct a polyhedron from a 2D matrix of heights. If the height at [0,0] is Z, it maps
+        to the point (0, 0, Z).
+
+        heights: The 2D matrix of heights
+        base: The height at which the base will be - in the scale of heights (optional; default 0)
+        convexity: see OpenSCAD
+        &#34;&#34;&#34;
+        rows = len(heights)
+        row_len = len(heights[0])
+        point_list = []
+        point_map = {}  # { (row_ix,col_ix) -&gt; list_ix, ...
+        bottom_point_map = {}
+        for row_ix, row in enumerate(heights):
+            for col_ix, height in enumerate(row):
+                point = Point([row_ix, col_ix, height])
+                bottom_point = Point([row_ix, col_ix, base])
+                
+                point_map[(row_ix, col_ix)] = len(point_list)
+                point_list.append(point)
+                
+                bottom_point_map[(row_ix, col_ix)] = len(point_list)
+                point_list.append(bottom_point)
+                
+        faces = []
+
+        # Surface (top) faces
+        #  r 10 11
+        # c
+        # 10  1  2
+        # 11  4  3
+        for row_ix in range(1, rows):
+            for col_ix in range(1, row_len):
+                faces.append([
+                    point_map[(row_ix-1, col_ix-1)],
+                    point_map[(row_ix, col_ix-1)],
+                    point_map[(row_ix, col_ix)],
+                    point_map[(row_ix-1, col_ix)]
+                ])
+
+        # Bottom faces
+        for row_ix in range(1, rows):
+            for col_ix in range(1, row_len):
+                faces.append([
+                    bottom_point_map[(row_ix-1, col_ix-1)], # 1
+                    bottom_point_map[(row_ix-1, col_ix)], # 4
+                    bottom_point_map[(row_ix, col_ix)], # 3
+                    bottom_point_map[(row_ix, col_ix-1)] # 2
+                ])
+        
+        # Side faces
+        for row_ix in range(1, rows):
+            m = row_len - 1
+            faces.append([
+                point_map[(row_ix-1, m)],
+                point_map[(row_ix, m)],
+                bottom_point_map[(row_ix, m)],
+                bottom_point_map[(row_ix-1, m)]
+            ])
+            faces.append([
+                point_map[(row_ix, 0)],
+                point_map[(row_ix-1, 0)],
+                bottom_point_map[(row_ix-1, 0)],
+                bottom_point_map[(row_ix, 0)]
+            ])
+        
+        for col_ix in range(1, row_len):
+            m = rows - 1
+            faces.append([
+                point_map[(m, col_ix-1)],
+                point_map[(m, col_ix)],
+                bottom_point_map[(m, col_ix)],
+                bottom_point_map[(m, col_ix-1)]
+            ])
+            faces.append([
+                point_map[(0, col_ix)],
+                point_map[(0, col_ix-1)],
+                bottom_point_map[(0, col_ix-1)],
+                bottom_point_map[(0, col_ix)]
+            ])
+            
+        return cls(points=point_list, faces=faces, convexity=convexity)
+
+    def render(self) -&gt; str:
+        &#34;&#34;&#34;Render the object into OpenSCAD code&#34;&#34;&#34;
+        faces_list = [f&#34;[{&#39;,&#39;.join([str(x) for x in face])}]&#34; for face in self.faces]
+        return f&#34;polyhedron(points=[{&#39;,&#39;.join([p.render() for p in self.points])}], faces=[{&#39;,&#39;.join(faces_list)}], convexity={self.convexity});&#34;
+
+    def render_stl(self) -&gt; str:
+        &#34;&#34;&#34;Export the polyhedron as an STL file&#34;&#34;&#34;
+        stl = []
+        
+        def write_triangle(p1, p2, p3):
+            normal = (p2 - p1).cross(p3 - p1)
+            if normal.is_zero():
+                # Degenerate triangle
+                return
+            normal = normal.norm()
+            stl.append(&#34;facet normal &#34; + normal.render_stl())
+            stl.append(&#34;outer loop&#34;)
+            for p in [p1, p2, p3]:
+                stl.append(&#34;vertex &#34; + p.render_stl())
+            stl.append(&#34;endloop&#34;)
+            stl.append(&#34;endfacet&#34;)
+        
+        stl.append(&#34;solid oscpy&#34;)
+        for face in self.faces:
+            face = [self.points[i] for i in face]
+            # stl.append(f&#34;# FACE {len(face)} {&#39;,&#39;.join([p.render() for p in face])}&#34;)
+            if len(face) &lt; 3:
+                raise Exception(&#34;Face has less than 3 points&#34;)
+            elif len(face) == 3:
+                write_triangle(face[0], face[1], face[2])
+            elif len(face) == 4:
+                # Decide which diagonal is best to break on
+                d1 = face[0].sub(face[2]).length()
+                d2 = face[1].sub(face[3]).length()
+                if d1 &lt; d2:
+                    write_triangle(face[0], face[1], face[2])
+                    write_triangle(face[0], face[2], face[3])
+                else:
+                    write_triangle(face[0], face[1], face[3])
+                    write_triangle(face[1], face[2], face[3])
+            else:
+                # Add central point and split face in a star-shaped form
+                # of course this won&#39;t always work on concave faces
+                s = None
+                for p in face:
+                    if s is None:
+                        s = p
+                    else:
+                        s += p
+                s = s.scale(1 / len(face))
+                for i in range(len(face)):
+                    i_next = i + 1
+                    if i_next &gt; len(face) - 1:
+                        i_next = 0
+                    write_triangle(face[i], face[i_next], s)
+        stl.append(&#34;endsolid oscpy&#34;)
+        return &#34;\n&#34;.join(stl)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></li>
+</ul>
+<h3>Static methods</h3>
+<dl>
+<dt id="openscad_py.polyhedron.Polyhedron.from_heightmap"><code class="name flex">
+<span>def <span class="ident">from_heightmap</span></span>(<span>heights: List[List[float]], base: float = 0.0, convexity: int = 10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Construct a polyhedron from a 2D matrix of heights. If the height at [0,0] is Z, it maps
+to the point (0, 0, Z).</p>
+<p>heights: The 2D matrix of heights
+base: The height at which the base will be - in the scale of heights (optional; default 0)
+convexity: see OpenSCAD</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.torus"><code class="name flex">
+<span>def <span class="ident">torus</span></span>(<span>points: List[List[list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>]],<br>torus_connect_offset: int = 0,<br>convexity: int = 10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Construct a torus-like polyhedron from a 2D array of points.
+Each row of points must be oriented clockwise when looking from the first row (loop) toward the next.
+The rows of points form loops.</p>
+<p>points: A 2D array of points
+torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+convexity: int, see OpensCAD</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.tube"><code class="name flex">
+<span>def <span class="ident">tube</span></span>(<span>points: List[List[list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>]],<br>make_torus: bool = False,<br>torus_connect_offset: int = 0,<br>convexity: int = 10)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Construct a tube-like polyhedron from a 2D array of points.
+Each row of points must be oriented clockwise when looking at the pipe at the start inwards.
+The rows of points form loops.</p>
+<p>points: A 2D array of points
+make_torus: bool, Whether to create a torus-like shape instead of a pipe with ends
+torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+convexity: int, see OpensCAD</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="openscad_py.polyhedron.Polyhedron.color"><code class="name flex">
+<span>def <span class="ident">color</span></span>(<span>self, r, g, b, a=1.0) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.color" href="object_.html#openscad_py.object_.Object.color">color</a></code>
+</p>
+<div class="desc inherited"><p>Apply a color and return a new object.
+See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#color">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#color</a></p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.delta_offset"><code class="name flex">
+<span>def <span class="ident">delta_offset</span></span>(<span>self, delta, chamfer=False)</span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.delta_offset" href="object_.html#openscad_py.object_.Object.delta_offset">delta_offset</a></code>
+</p>
+<div class="desc inherited"><p>Return a new 2D interior or exterior outline from an existing outline.
+See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset</a></p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.diff"><code class="name flex">
+<span>def <span class="ident">diff</span></span>(<span>self,<br>tool: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>')) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.diff" href="object_.html#openscad_py.object_.Object.diff">diff</a></code>
+</p>
+<div class="desc inherited"><p>Remove from the object using a difference operator, and return a new object.
+See …</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.extrude"><code class="name flex">
+<span>def <span class="ident">extrude</span></span>(<span>self, height, convexity=10, center: bool = False) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.extrude" href="object_.html#openscad_py.object_.Object.extrude">extrude</a></code>
+</p>
+<div class="desc inherited"><p>Apply a linear extrusion and return a new object.
+If <code>center</code> is false, the linear extrusion Z range is from 0 to height;
+if it is true, the range is …</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.intersection"><code class="name flex">
+<span>def <span class="ident">intersection</span></span>(<span>self,<br>objects: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>')) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.intersection" href="object_.html#openscad_py.object_.Object.intersection">intersection</a></code>
+</p>
+<div class="desc inherited"><p>Get the intersection of self and an object of list of objects, and return a new object.
+See …</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.move"><code class="name flex">
+<span>def <span class="ident">move</span></span>(<span>self,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.move" href="object_.html#openscad_py.object_.Object.move">move</a></code>
+</p>
+<div class="desc inherited"><p>Apply a translation and return a new object. Synonym of <code>translate()</code></p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.radial_offset"><code class="name flex">
+<span>def <span class="ident">radial_offset</span></span>(<span>self, r)</span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.radial_offset" href="object_.html#openscad_py.object_.Object.radial_offset">radial_offset</a></code>
+</p>
+<div class="desc inherited"><p>Return a new 2D interior or exterior outline from an existing outline.
+See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset</a></p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.render"><code class="name flex">
+<span>def <span class="ident">render</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.render" href="object_.html#openscad_py.object_.Object.render">render</a></code>
+</p>
+<div class="desc inherited"><p>Render the object into OpenSCAD code</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.render_stl"><code class="name flex">
+<span>def <span class="ident">render_stl</span></span>(<span>self) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Export the polyhedron as an STL file</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.rotate"><code class="name flex">
+<span>def <span class="ident">rotate</span></span>(<span>self,<br>a,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.rotate" href="object_.html#openscad_py.object_.Object.rotate">rotate</a></code>
+</p>
+<div class="desc inherited"><p>Apply a rotation and return a new object.
+See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#rotate">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#rotate</a></p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.rotate_extrude"><code class="name flex">
+<span>def <span class="ident">rotate_extrude</span></span>(<span>self, angle, convexity=10) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.rotate_extrude" href="object_.html#openscad_py.object_.Object.rotate_extrude">rotate_extrude</a></code>
+</p>
+<div class="desc inherited"><p>Apply a rotational extrusion and return a new object. For all points x &gt;= 0 must be true.
+See …</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.scale"><code class="name flex">
+<span>def <span class="ident">scale</span></span>(<span>self,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a> | float) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.scale" href="object_.html#openscad_py.object_.Object.scale">scale</a></code>
+</p>
+<div class="desc inherited"><p>Apply scaling and return a new object. Accepts a vector (a Point object or a list of floats)
+or a single float for uniform scaling.
+See …</p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.translate"><code class="name flex">
+<span>def <span class="ident">translate</span></span>(<span>self,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.translate" href="object_.html#openscad_py.object_.Object.translate">translate</a></code>
+</p>
+<div class="desc inherited"><p>Apply a translation and return a new object.
+See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#translate">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#translate</a></p></div>
+</dd>
+<dt id="openscad_py.polyhedron.Polyhedron.union"><code class="name flex">
+<span>def <span class="ident">union</span></span>(<span>self,<br>objects: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>')) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
+</code></dt>
+<dd>
+<p class="inheritance">
+<em>Inherited from:</em>
+<code><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></code>.<code><a title="openscad_py.object_.Object.union" href="object_.html#openscad_py.object_.Object.union">union</a></code>
+</p>
+<div class="desc inherited"><p>Form the union of self and an object or list of objects, and return a new object.
+See …</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="openscad_py" href="index.html">openscad_py</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="openscad_py.polyhedron.Polyhedron" href="#openscad_py.polyhedron.Polyhedron">Polyhedron</a></code></h4>
+<ul class="two-column">
+<li><code><a title="openscad_py.polyhedron.Polyhedron.color" href="object_.html#openscad_py.polyhedron.Polyhedron.color">color</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.delta_offset" href="object_.html#openscad_py.polyhedron.Polyhedron.delta_offset">delta_offset</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.diff" href="object_.html#openscad_py.polyhedron.Polyhedron.diff">diff</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.extrude" href="object_.html#openscad_py.polyhedron.Polyhedron.extrude">extrude</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.from_heightmap" href="#openscad_py.polyhedron.Polyhedron.from_heightmap">from_heightmap</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.intersection" href="object_.html#openscad_py.polyhedron.Polyhedron.intersection">intersection</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.move" href="object_.html#openscad_py.polyhedron.Polyhedron.move">move</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.radial_offset" href="object_.html#openscad_py.polyhedron.Polyhedron.radial_offset">radial_offset</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.render" href="#openscad_py.polyhedron.Polyhedron.render">render</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.render_stl" href="#openscad_py.polyhedron.Polyhedron.render_stl">render_stl</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.rotate" href="object_.html#openscad_py.polyhedron.Polyhedron.rotate">rotate</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.rotate_extrude" href="object_.html#openscad_py.polyhedron.Polyhedron.rotate_extrude">rotate_extrude</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.scale" href="object_.html#openscad_py.polyhedron.Polyhedron.scale">scale</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.torus" href="#openscad_py.polyhedron.Polyhedron.torus">torus</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.translate" href="object_.html#openscad_py.polyhedron.Polyhedron.translate">translate</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.tube" href="#openscad_py.polyhedron.Polyhedron.tube">tube</a></code></li>
+<li><code><a title="openscad_py.polyhedron.Polyhedron.union" href="object_.html#openscad_py.polyhedron.Polyhedron.union">union</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.3</a>.</p>
+</footer>
+</body>
+</html>
