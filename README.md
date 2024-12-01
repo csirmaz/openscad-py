@@ -60,13 +60,16 @@ openscad_code = Cylinder.from_ends(radius=2, p1=(0, 0, 1), p2=(1, 0, 2)).render(
 
 ### Tubes and toroids from a point grid
 
-`Polyhedron.tube()` creates a tube-like Polyhedron object from a 2D array of points.
+[`Polyhedron.tube()`](https://csirmaz.github.io/openscad-py/polyhedron.html#openscad_py.polyhedron.Polyhedron.tube) 
+creates a tube-like Polyhedron object from a 2D array of points.
 
-`Polyhedron.torus()` creates a toroid Polyhedron object from a 2D array of points.
+[`Polyhedron.torus()`](https://csirmaz.github.io/openscad-py/polyhedron.html#openscad_py.polyhedron.Polyhedron.torus)
+creates a toroid Polyhedron object from a 2D array of points.
 
 ### Tubes from a path
 
-`PathTube` creates a tube-like or toroid Polyhedron object from an arbitrary path. Example:
+[`PathTube`](https://csirmaz.github.io/openscad-py/path_tube.html)
+creates a tube-like or toroid Polyhedron object from an arbitrary path. Example:
 
 ```python
 PathTube(
@@ -80,7 +83,8 @@ PathTube(
 
 ### Polyhedron from a height map
 
-`Polyhedron.from_heightmap()` creates a Polyhedron object from a 2D matrix of heights. Example:
+[`Polyhedron.from_heightmap()`](https://csirmaz.github.io/openscad-py/polyhedron.html#openscad_py.polyhedron.Polyhedron.from_heightmap)
+creates a Polyhedron object from a 2D matrix of heights. Example:
 
 ```python
 Polyhedron.from_heightmap(
@@ -99,7 +103,8 @@ Polyhedron.from_heightmap(
 
 ### Direct STL export
 
-`Polyhedron.render_stl()` exports a Polyhedron object into STL directly.
+[`Polyhedron.render_stl()`](https://csirmaz.github.io/openscad-py/polyhedron.html#openscad_py.polyhedron.Polyhedron.render_stl)
+exports a Polyhedron object into STL directly.
 This works well with `tube()`, `torus()`, `from_heightmap()` and `PathTube` described above. 
 Note that the polyhedron object cannot be post-modified (e.g. by `union`, `difference`) - if so, 
 use OpenSCAD to render the object and export to STL.
@@ -107,7 +112,7 @@ use OpenSCAD to render the object and export to STL.
 ## Overview and usage
 
 In `openscad_py`, all objects (including derived ones) come with a large set of convenience methods
-to apply transformations, implemented in the base [`Object` class](https://github.com/csirmaz/openscad-py/blob/main/openscad_py/object_.py).
+to apply transformations, implemented in the base [`Object` class](https://csirmaz.github.io/openscad-py/object_.html).
 This allows to freely specify transformations on any object:
 
 ```python
@@ -119,4 +124,8 @@ Once the desired object has been created, call `render()` on the final object to
 OpenSCAD code.
 
 For the full list of convenience functions, see
-https://github.com/csirmaz/openscad-py/blob/main/openscad_py/object_.py .
+https://csirmaz.github.io/openscad-py/object_.html .
+
+## Reference
+
+See https://csirmaz.github.io/openscad-py/
