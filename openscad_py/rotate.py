@@ -8,7 +8,9 @@ from openscad_py.object_ import Object
 
 
 class Rotate(Object):
-    """Represents a rotation transformation applied to an object"""
+    """Represents a rotation transformation applied to an object.
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#rotate
+    """
 
     def __init__(self, a, v: TUnion[list, Point], child: Object):
         self.a = a

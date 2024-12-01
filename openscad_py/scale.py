@@ -8,6 +8,9 @@ from openscad_py.object_ import Object
 
 
 class Scale(Object):
+    """Represents a scale transformation applied to an object.
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#scale
+    """
 
     def __init__(self, v: TUnion[list, Point, float, int], child: Object):
         if isinstance(v, float) or isinstance(v, int):

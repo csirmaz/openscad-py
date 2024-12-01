@@ -8,7 +8,9 @@ from openscad_py.collection import Collection
 
 
 class Intersection(Object):
-    """Represents an intersection applied to an object (usually a collection of objects)"""
+    """Represents an intersection applied to an object (usually a collection of objects).
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/CSG_Modelling#intersection
+    """
 
     def __init__(self, child: TUnion[Object, list]):
         self.child = Collection.c(child)

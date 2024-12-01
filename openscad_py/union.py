@@ -9,7 +9,9 @@ from openscad_py.collection import Collection
 
 
 class Union(Object):
-    """Represents a union applied to an object (usually a collection of objects)"""
+    """Represents a union applied to an object (usually a collection of objects).
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/CSG_Modelling#union
+    """
 
     def __init__(self, child: TUnion[Object, list]):
         self.child = Collection.c(child)

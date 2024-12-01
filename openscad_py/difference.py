@@ -8,7 +8,9 @@ from openscad_py.collection import Collection
 
 
 class Difference(Object):
-    """Represents a difference"""
+    """Represents a difference.
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/CSG_Modelling#difference
+    """
 
     def __init__(self, subject: Object, tool: TUnion[list, Object]):
         self.subject = subject

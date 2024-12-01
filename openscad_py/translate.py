@@ -8,7 +8,9 @@ from openscad_py.object_ import Object
 
 
 class Translate(Object):
-    """Represents a translation transformation applied to an object"""
+    """Represents a translation transformation applied to an object.
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#translate
+    """
 
     def __init__(self, v: TUnion[list, Point], child: Object):
         self.v = Point.c(v)
