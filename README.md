@@ -42,8 +42,9 @@ $ openscad example.scad
 
 ### Computational geometry
 
-Usual computational geometry functions in the `Point` class that work in an arbitrary number of dimensions. 
-Overloads for algebraic operators. Examples:
+Usual computational geometry functions in the 
+[`Point` class](https://csirmaz.github.io/openscad-py/point.html)
+that work in an arbitrary number of dimensions. Overloads for algebraic operators. Examples:
 
 ```python
 distance = (Point((0, 0, 1)) - Point((1, 0, 1))).length()
