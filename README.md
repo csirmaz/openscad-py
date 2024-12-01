@@ -42,9 +42,9 @@ $ openscad example.scad
 
 ### Computational geometry
 
-Usual computational geometry functions in the 
+Usual computational geometry functions are implemented in the 
 [`Point` class](https://csirmaz.github.io/openscad-py/point.html)
-that work in an arbitrary number of dimensions. Overloads for algebraic operators. Examples:
+that work in an arbitrary number of dimensions. Overloads algebraic operators. Examples:
 
 ```python
 distance = (Point((0, 0, 1)) - Point((1, 0, 1))).length()
@@ -123,9 +123,6 @@ colored_moved_cube = Cube([1, 1, 1]).move([2, 0, 0]).color(r=1, g=0, b=0)
 
 Once the desired object has been created, call `render()` on the final object to obtain the
 OpenSCAD code.
-
-For the full list of convenience functions, see
-https://csirmaz.github.io/openscad-py/object_.html .
 
 ## Reference
 
