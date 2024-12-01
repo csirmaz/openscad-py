@@ -27,9 +27,10 @@ class Polyhedron(Object):
         Each row of points must be oriented clockwise when looking from the first row (loop) toward the next.
         The rows of points form loops.
 
-        points: A 2D array of points
-        torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
-        convexity: int, see OpensCAD
+        Arguments:
+            - points: A 2D array of points
+            - torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+            - convexity: int, see OpensCAD
         """
         return cls.tube(points=points, convexity=convexity, make_torus=True, torus_connect_offset=torus_connect_offset)
 
@@ -38,11 +39,12 @@ class Polyhedron(Object):
         """Construct a tube-like polyhedron from a 2D array of points.
         Each row of points must be oriented clockwise when looking at the pipe at the start inwards.
         The rows of points form loops.
-        
-        points: A 2D array of points
-        make_torus: bool, Whether to create a torus-like shape instead of a pipe with ends
-        torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
-        convexity: int, see OpensCAD
+
+        Arguments:
+            - points: A 2D array of points
+            - make_torus: bool, Whether to create a torus-like shape instead of a pipe with ends
+            - torus_connect_offset: int, Whether to shift which points are connected in a torus in the last segment
+            - convexity: int, see OpensCAD
         """
         rows = len(points)
         row_len = len(points[0])
@@ -96,9 +98,10 @@ class Polyhedron(Object):
         """Construct a polyhedron from a 2D matrix of heights. If the height at [0,0] is Z, it maps
         to the point (0, 0, Z).
 
-        heights: The 2D matrix of heights
-        base: The height at which the base will be - in the scale of heights (optional; default 0)
-        convexity: see OpenSCAD
+        Arguments:
+            - heights: The 2D matrix of heights
+            - base: The height at which the base will be - in the scale of heights (optional; default 0)
+            - convexity: see OpenSCAD
         """
         rows = len(heights)
         row_len = len(heights[0])

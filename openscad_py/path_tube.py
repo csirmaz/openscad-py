@@ -13,11 +13,12 @@ class PathTube(Object):
 
     def __init__(self, points: List[TUnion[list, Point]], radius: TUnion[float, list], fn: int, make_torus: bool = False, convexity: int = 10):
         """
-        points: The list of points
-        radius: A float or a list of floats for each point
-        fn: int, The number of sides
-        make_torus: bool, Whether to make a torus instead of a pipe with ends. Warning: the last segment may be twisted.
-        convexity: see openscad
+        Arguments:
+            - points: The list of points
+            - radius: A float or a list of floats for each point
+            - fn: int, The number of sides
+            - make_torus: bool, Whether to make a torus instead of a pipe with ends. Warning: the last segment may be twisted.
+            - convexity: see openscad
         """
         self.points = [Point.c(p) for p in points]
         self.radii = radius if isinstance(radius, list) else [radius for p in points]
