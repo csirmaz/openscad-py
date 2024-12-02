@@ -41,24 +41,30 @@ hljs.highlightAll();
 </code></dt>
 <dd>
 <div class="desc"><p>A 3D primitive, a polyhedron defined by a list of points and faces.
-Faces are defined by lists of point indices. The points of a face must be listed clockwise when
-looking at the face from the outside inward.
-Nonplanar faces should be triangulated by OpenSCAD.</p>
-<p>See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron</a></p></div>
+Nonplanar faces will be triangulated by OpenSCAD.</p>
+<p>See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron</a></p>
+<h2 id="arguments">Arguments</h2>
+<ul>
+<li>points: a list of Point objects or coordinate tuples defining the vertices</li>
+<li>faces: defines the faces as a list of lists of vertex indices. The points of a face must be listed clockwise when looking at the face from the outside inward.</li>
+</ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Polyhedron(Object):
     &#34;&#34;&#34;A 3D primitive, a polyhedron defined by a list of points and faces.
-    Faces are defined by lists of point indices. The points of a face must be listed clockwise when
-    looking at the face from the outside inward.
-    Nonplanar faces should be triangulated by OpenSCAD.
+    Nonplanar faces will be triangulated by OpenSCAD.
 
     See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron
     &#34;&#34;&#34;
 
     def __init__(self, points: List[TUnion[list, Point]], faces: List[list], convexity: int = 10):
+        &#34;&#34;&#34;
+        Arguments:
+            - points: a list of Point objects or coordinate tuples defining the vertices
+            - faces: defines the faces as a list of lists of vertex indices. The points of a face must be listed clockwise when looking at the face from the outside inward.
+        &#34;&#34;&#34;
         self.points = [Point.c(p) for p in points]
         self.faces = faces
         self.convexity = convexity

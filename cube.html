@@ -40,21 +40,32 @@ hljs.highlightAll();
 <span>(</span><span>size: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>,<br>center: bool = False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>A 3D primitive, cube.
-Creates a cube in the first octant. When center is true, the cube is centered on the origin.</p>
-<p>See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#cube">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#cube</a></p></div>
+<div class="desc"><p>A 3D primitive, cube.</p>
+<p>See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#cube">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#cube</a></p>
+<p>Creates a cube in the first octant. When <code>center</code> is True, the cube is centered on the origin.</p>
+<h2 id="arguments">Arguments</h2>
+<ul>
+<li>size: a Point object or a list of <code>x, y, z</code> sizes</li>
+<li>center: if True, the cube is centered on the origin</li>
+</ul></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Cube(Object):
     &#34;&#34;&#34;A 3D primitive, cube.
-    Creates a cube in the first octant. When center is true, the cube is centered on the origin.
-    
+
     See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#cube
     &#34;&#34;&#34;
 
     def __init__(self, size: TUnion[list, Point], center: bool = False):
+        &#34;&#34;&#34;
+        Creates a cube in the first octant. When `center` is True, the cube is centered on the origin.
+
+        Arguments:
+            - size: a Point object or a list of `x, y, z` sizes
+            - center: if True, the cube is centered on the origin
+        &#34;&#34;&#34;
         self.size = Point.c(size)
         self.center = center
 
