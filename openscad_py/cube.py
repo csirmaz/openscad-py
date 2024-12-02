@@ -10,12 +10,18 @@ from openscad_py.object_ import Object
 
 class Cube(Object):
     """A 3D primitive, cube.
-    Creates a cube in the first octant. When center is true, the cube is centered on the origin.
-    
+
     See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#cube
     """
 
     def __init__(self, size: TUnion[list, Point], center: bool = False):
+        """
+        Creates a cube in the first octant. When `center` is True, the cube is centered on the origin.
+
+        Arguments:
+            - size: a Point object or a list of `x, y, z` sizes
+            - center: if True, the cube is centered on the origin
+        """
         self.size = Point.c(size)
         self.center = center
 

@@ -9,14 +9,17 @@ from openscad_py.object_ import Object
 
 class Polyhedron(Object):
     """A 3D primitive, a polyhedron defined by a list of points and faces.
-    Faces are defined by lists of point indices. The points of a face must be listed clockwise when
-    looking at the face from the outside inward.
-    Nonplanar faces should be triangulated by OpenSCAD.
+    Nonplanar faces will be triangulated by OpenSCAD.
 
     See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#polyhedron
     """
 
     def __init__(self, points: List[TUnion[list, Point]], faces: List[list], convexity: int = 10):
+        """
+        Arguments:
+            - points: a list of Point objects or coordinate tuples defining the vertices
+            - faces: defines the faces as a list of lists of vertex indices. The points of a face must be listed clockwise when looking at the face from the outside inward.
+        """
         self.points = [Point.c(p) for p in points]
         self.faces = faces
         self.convexity = convexity
