@@ -97,13 +97,15 @@ class Polyhedron(Object):
         return cls(points=point_list, faces=faces, convexity=convexity)
 
     @classmethod
-    def from_heightmap(cls, heights: List[List[float]], base: float = 0., convexity: int = 10):
+    def from_heightmap(cls, heights: List[List[float]], base: float = 0., step_x: float = 1., step_y: float = 1., convexity: int = 10):
         """Construct a polyhedron from a 2D matrix of heights. If the height at [0,0] is Z, it maps
         to the point (0, 0, Z).
 
         Arguments:
             - heights: The 2D matrix of heights
             - base: The height at which the base will be - in the scale of heights (optional; default 0)
+            - step_x: The X coordinate becomes `step_x * index_x` (default 1)
+            - step_y: The Y coordinate becomes `step_y * index_y` (default 1)
             - convexity: see OpenSCAD
         """
         rows = len(heights)
@@ -113,8 +115,8 @@ class Polyhedron(Object):
         bottom_point_map = {}
         for row_ix, row in enumerate(heights):
             for col_ix, height in enumerate(row):
-                point = Point([row_ix, col_ix, height])
-                bottom_point = Point([row_ix, col_ix, base])
+                point = Point([row_ix*step_x, col_ix*step_y, height])
+                bottom_point = Point([row_ix*step_x, col_ix*step_y, base])
                 
                 point_map[(row_ix, col_ix)] = len(point_list)
                 point_list.append(point)
