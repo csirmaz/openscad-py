@@ -5,7 +5,7 @@ import math
 import numpy as np
 
 EPSILON = 1e-7
-NP_TYPE = np.float_
+NP_TYPE = np.float64
 
 
 class Point:
