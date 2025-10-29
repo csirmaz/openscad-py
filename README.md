@@ -43,7 +43,7 @@ $ openscad example.scad
 ### Computational geometry
 
 Usual computational geometry functions are implemented in the 
-[`Point` class](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/point.html)
+[`Point` class](https://csirmaz.codeberg.page/openscad-py/@reference/point.html)
 that work in an arbitrary number of dimensions. Overloads algebraic operators. Examples:
 
 ```python
@@ -61,15 +61,15 @@ openscad_code = Cylinder.from_ends(radius=2, p1=(0, 0, 1), p2=(1, 0, 2)).render(
 
 ### Tubes and toroids from a point grid
 
-[`Polyhedron.tube()`](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/polyhedron.html#openscad_py.polyhedron.Polyhedron.tube) 
+[`Polyhedron.tube()`](https://csirmaz.codeberg.page/openscad-py/@reference/polyhedron.html#openscad_py.polyhedron.Polyhedron.tube) 
 creates a tube-like Polyhedron object from a 2D array of points.
 
-[`Polyhedron.torus()`](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/polyhedron.html#openscad_py.polyhedron.Polyhedron.torus)
+[`Polyhedron.torus()`](https://csirmaz.codeberg.page/openscad-py/@reference/polyhedron.html#openscad_py.polyhedron.Polyhedron.torus)
 creates a toroid Polyhedron object from a 2D array of points.
 
 ### Tubes from a path
 
-[`PathTube`](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/path_tube.html)
+[`PathTube`](https://csirmaz.codeberg.page/openscad-py/@reference/path_tube.html)
 creates a tube-like or toroid Polyhedron object from an arbitrary path. Example:
 
 ```python
@@ -84,7 +84,7 @@ PathTube(
 
 ### Polyhedron from a height map
 
-[`Polyhedron.from_heightmap()`](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/polyhedron.html#openscad_py.polyhedron.Polyhedron.from_heightmap)
+[`Polyhedron.from_heightmap()`](https://csirmaz.codeberg.page/openscad-py/@reference/polyhedron.html#openscad_py.polyhedron.Polyhedron.from_heightmap)
 creates a Polyhedron object from a 2D matrix of heights. Example:
 
 ```python
@@ -104,7 +104,7 @@ Polyhedron.from_heightmap(
 
 ### Direct STL export
 
-[`Polyhedron.render_stl()`](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/polyhedron.html#openscad_py.polyhedron.Polyhedron.render_stl)
+[`Polyhedron.render_stl()`](https://csirmaz.codeberg.page/openscad-py/@reference/polyhedron.html#openscad_py.polyhedron.Polyhedron.render_stl)
 exports a Polyhedron object into STL directly.
 This works well with `tube()`, `torus()`, `from_heightmap()` and `PathTube` described above. 
 Note that the polyhedron object cannot be post-modified (e.g. by `union`, `difference`) - if so, 
@@ -113,7 +113,7 @@ use OpenSCAD to render the object and export to STL.
 ## Overview and usage
 
 In `openscad_py`, all objects (including derived ones) come with a large set of convenience methods
-to apply transformations, implemented in the base [`Object` class](https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/object_.html).
+to apply transformations, implemented in the base [`Object` class](https://csirmaz.codeberg.page/openscad-py/@reference/object_.html).
 This allows to freely specify transformations on any object:
 
 ```python
@@ -126,4 +126,4 @@ OpenSCAD code.
 
 ## Reference
 
-See https://csirmaz.codeberg.page/openscad-py/@reference/doc/openscad_py/
+See https://csirmaz.codeberg.page/openscad-py/@reference/
