@@ -12,8 +12,10 @@ class Collection(Object):
         self.collection = coll
 
     @classmethod
-    def c(cls, coll: TUnion[list, Object]) -> Object:
-        """Ensure the list of objects is a Collection (idempotent)"""
+    def c(cls, coll: TUnion[list, Object, None]) -> Object:
+        """Ensure the list of objects is a Collection (idempotent). If coll is None, return an empty collection."""
+        if coll is None:
+            return cls([])
         if isinstance(coll, Object):
             return coll
         return cls(coll)

@@ -93,8 +93,8 @@ class Object:
         from openscad_py.difference import Difference
         return Difference(subject=self, tool=tool)
 
-    def union(self, objects: TUnion[list, 'Object']) -> 'Object':
-        """Form the union of self and an object or list of objects, and return a new object.
+    def union(self, objects: TUnion[list, 'Object', None] = None) -> 'Object':
+        """Form the union of self and an optional object or list of objects, and return a new object.
         See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/CSG_Modelling#union
         """
         from openscad_py.union import Union
