@@ -6,6 +6,7 @@ from openscad_py.header import Header
 
 # Traditional objects
 from openscad_py.cube import Cube
+from openscad_py.sphere import Sphere
 from openscad_py.cylinder import Cylinder
 from openscad_py.polyhedron import Polyhedron
 from openscad_py.path_tube import PathTube
