@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
 <meta name="generator" content="pdoc3 0.11.6">
-<title>openscad_py.polygon API documentation</title>
+<title>openscad_py.hull API documentation</title>
 <meta name="description" content="">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
@@ -33,7 +33,7 @@ el.replaceWith(d);
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>openscad_py.polygon</code></h1>
+<h1 class="title">Module <code>openscad_py.hull</code></h1>
 </header>
 <section id="section-intro">
 </section>
@@ -46,35 +46,36 @@ el.replaceWith(d);
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="openscad_py.polygon.Polygon"><code class="flex name class">
-<span>class <span class="ident">Polygon</span></span>
-<span>(</span><span>points, paths=None, convexity=10)</span>
+<dt id="openscad_py.hull.Hull"><code class="flex name class">
+<span>class <span class="ident">Hull</span></span>
+<span>(</span><span>child: list | <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>)</span>
 </code></dt>
 <dd>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class Polygon(Object):
-    &#34;&#34;&#34;A 2D primitive, polygon. Use points/lists with 2 coordinates.&#34;&#34;&#34;
+<pre><code class="python">class Hull(Object):
+    &#34;&#34;&#34;Represents the convex hull of an object (usually a collection of objects).
+    See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#hull
+    &#34;&#34;&#34;
 
-    def __init__(self, points, paths=None, convexity=10):
-        assert paths is None  # not implemented yet
-        self.points = [Point.c(p) for p in points]
-        self.convexity = convexity
+    def __init__(self, child: TUnion[Object, list]):
+        self.child = Collection.c(child)
 
     def render(self) -&gt; str:
         &#34;&#34;&#34;Render the object into OpenSCAD code&#34;&#34;&#34;
-        return f&#34;polygon(points=[{&#39;,&#39;.join([p.render() for p in self.points])}], convexity={self.convexity});&#34;</code></pre>
+        return f&#34;hull(){{ {self.child.render()} }}&#34;</code></pre>
 </details>
-<div class="desc"><p>A 2D primitive, polygon. Use points/lists with 2 coordinates.</p></div>
+<div class="desc"><p>Represents the convex hull of an object (usually a collection of objects).
+See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#hull">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#hull</a></p></div>
 <h3>Ancestors</h3>
 <ul class="hlist">
 <li><a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></li>
 </ul>
 <h3>Methods</h3>
 <dl>
-<dt id="openscad_py.polygon.Polygon.color"><code class="name flex">
+<dt id="openscad_py.hull.Hull.color"><code class="name flex">
 <span>def <span class="ident">color</span></span>(<span>self, r, g, b, a=1.0) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -85,7 +86,7 @@ el.replaceWith(d);
 <div class="desc inherited"><p>Apply a color and return a new object.
 See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#color">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#color</a></p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.delta_offset"><code class="name flex">
+<dt id="openscad_py.hull.Hull.delta_offset"><code class="name flex">
 <span>def <span class="ident">delta_offset</span></span>(<span>self, delta, chamfer=False)</span>
 </code></dt>
 <dd>
@@ -96,7 +97,7 @@ See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#
 <div class="desc inherited"><p>Return a new 2D interior or exterior outline from an existing outline.
 See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset</a></p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.diff"><code class="name flex">
+<dt id="openscad_py.hull.Hull.diff"><code class="name flex">
 <span>def <span class="ident">diff</span></span>(<span>self,<br>tool: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>')) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -107,7 +108,7 @@ See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#
 <div class="desc inherited"><p>Remove from the object using a difference operator, and return a new object.
 See …</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.extrude"><code class="name flex">
+<dt id="openscad_py.hull.Hull.extrude"><code class="name flex">
 <span>def <span class="ident">extrude</span></span>(<span>self, height, convexity=10, center: bool = False) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -119,7 +120,7 @@ See …</p></div>
 If <code>center</code> is false, the linear extrusion Z range is from 0 to height;
 if it is true, the range is …</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.hull"><code class="name flex">
+<dt id="openscad_py.hull.Hull.hull"><code class="name flex">
 <span>def <span class="ident">hull</span></span>(<span>self,<br>objects: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>') | None = None) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -130,7 +131,7 @@ if it is true, the range is …</p></div>
 <div class="desc inherited"><p>Get the convex hull of self and an optional object or list of objects, and return a new object.
 See …</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.intersection"><code class="name flex">
+<dt id="openscad_py.hull.Hull.intersection"><code class="name flex">
 <span>def <span class="ident">intersection</span></span>(<span>self,<br>objects: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>')) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -141,7 +142,7 @@ See …</p></div>
 <div class="desc inherited"><p>Get the intersection of self and an object of list of objects, and return a new object.
 See …</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.move"><code class="name flex">
+<dt id="openscad_py.hull.Hull.move"><code class="name flex">
 <span>def <span class="ident">move</span></span>(<span>self,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -151,7 +152,7 @@ See …</p></div>
 </p>
 <div class="desc inherited"><p>Apply a translation and return a new object. Synonym of <code>translate()</code></p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.radial_offset"><code class="name flex">
+<dt id="openscad_py.hull.Hull.radial_offset"><code class="name flex">
 <span>def <span class="ident">radial_offset</span></span>(<span>self, r)</span>
 </code></dt>
 <dd>
@@ -162,7 +163,7 @@ See …</p></div>
 <div class="desc inherited"><p>Return a new 2D interior or exterior outline from an existing outline.
 See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#offset</a></p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.render"><code class="name flex">
+<dt id="openscad_py.hull.Hull.render"><code class="name flex">
 <span>def <span class="ident">render</span></span>(<span>self) ‑> str</span>
 </code></dt>
 <dd>
@@ -176,11 +177,11 @@ See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#
 </summary>
 <pre><code class="python">def render(self) -&gt; str:
     &#34;&#34;&#34;Render the object into OpenSCAD code&#34;&#34;&#34;
-    return f&#34;polygon(points=[{&#39;,&#39;.join([p.render() for p in self.points])}], convexity={self.convexity});&#34;</code></pre>
+    return f&#34;hull(){{ {self.child.render()} }}&#34;</code></pre>
 </details>
 <div class="desc inherited"><p>Render the object into OpenSCAD code</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.rotate"><code class="name flex">
+<dt id="openscad_py.hull.Hull.rotate"><code class="name flex">
 <span>def <span class="ident">rotate</span></span>(<span>self,<br>a,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -191,7 +192,7 @@ See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#
 <div class="desc inherited"><p>Apply a rotation and return a new object.
 See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#rotate">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#rotate</a></p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.rotate_extrude"><code class="name flex">
+<dt id="openscad_py.hull.Hull.rotate_extrude"><code class="name flex">
 <span>def <span class="ident">rotate_extrude</span></span>(<span>self, angle, convexity=10) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -202,7 +203,7 @@ See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#
 <div class="desc inherited"><p>Apply a rotational extrusion and return a new object. For all points x &gt;= 0 must be true.
 See …</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.scale"><code class="name flex">
+<dt id="openscad_py.hull.Hull.scale"><code class="name flex">
 <span>def <span class="ident">scale</span></span>(<span>self,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a> | float) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -214,7 +215,7 @@ See …</p></div>
 or a single float for uniform scaling.
 See …</p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.translate"><code class="name flex">
+<dt id="openscad_py.hull.Hull.translate"><code class="name flex">
 <span>def <span class="ident">translate</span></span>(<span>self,<br>v: list | <a title="openscad_py.point.Point" href="point.html#openscad_py.point.Point">Point</a>) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -225,7 +226,7 @@ See …</p></div>
 <div class="desc inherited"><p>Apply a translation and return a new object.
 See <a href="https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#translate">https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#translate</a></p></div>
 </dd>
-<dt id="openscad_py.polygon.Polygon.union"><code class="name flex">
+<dt id="openscad_py.hull.Hull.union"><code class="name flex">
 <span>def <span class="ident">union</span></span>(<span>self,<br>objects: list | ForwardRef('<a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a>') | None = None) ‑> <a title="openscad_py.object_.Object" href="object_.html#openscad_py.object_.Object">Object</a></span>
 </code></dt>
 <dd>
@@ -254,22 +255,22 @@ See …</p></div>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="openscad_py.polygon.Polygon" href="#openscad_py.polygon.Polygon">Polygon</a></code></h4>
+<h4><code><a title="openscad_py.hull.Hull" href="#openscad_py.hull.Hull">Hull</a></code></h4>
 <ul class="two-column">
-<li><code><a title="openscad_py.polygon.Polygon.color" href="object_.html#openscad_py.polygon.Polygon.color">color</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.delta_offset" href="object_.html#openscad_py.polygon.Polygon.delta_offset">delta_offset</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.diff" href="object_.html#openscad_py.polygon.Polygon.diff">diff</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.extrude" href="object_.html#openscad_py.polygon.Polygon.extrude">extrude</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.hull" href="object_.html#openscad_py.polygon.Polygon.hull">hull</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.intersection" href="object_.html#openscad_py.polygon.Polygon.intersection">intersection</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.move" href="object_.html#openscad_py.polygon.Polygon.move">move</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.radial_offset" href="object_.html#openscad_py.polygon.Polygon.radial_offset">radial_offset</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.render" href="#openscad_py.polygon.Polygon.render">render</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.rotate" href="object_.html#openscad_py.polygon.Polygon.rotate">rotate</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.rotate_extrude" href="object_.html#openscad_py.polygon.Polygon.rotate_extrude">rotate_extrude</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.scale" href="object_.html#openscad_py.polygon.Polygon.scale">scale</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.translate" href="object_.html#openscad_py.polygon.Polygon.translate">translate</a></code></li>
-<li><code><a title="openscad_py.polygon.Polygon.union" href="object_.html#openscad_py.polygon.Polygon.union">union</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.color" href="object_.html#openscad_py.hull.Hull.color">color</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.delta_offset" href="object_.html#openscad_py.hull.Hull.delta_offset">delta_offset</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.diff" href="object_.html#openscad_py.hull.Hull.diff">diff</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.extrude" href="object_.html#openscad_py.hull.Hull.extrude">extrude</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.hull" href="object_.html#openscad_py.hull.Hull.hull">hull</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.intersection" href="object_.html#openscad_py.hull.Hull.intersection">intersection</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.move" href="object_.html#openscad_py.hull.Hull.move">move</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.radial_offset" href="object_.html#openscad_py.hull.Hull.radial_offset">radial_offset</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.render" href="#openscad_py.hull.Hull.render">render</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.rotate" href="object_.html#openscad_py.hull.Hull.rotate">rotate</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.rotate_extrude" href="object_.html#openscad_py.hull.Hull.rotate_extrude">rotate_extrude</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.scale" href="object_.html#openscad_py.hull.Hull.scale">scale</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.translate" href="object_.html#openscad_py.hull.Hull.translate">translate</a></code></li>
+<li><code><a title="openscad_py.hull.Hull.union" href="object_.html#openscad_py.hull.Hull.union">union</a></code></li>
 </ul>
 </li>
 </ul>
