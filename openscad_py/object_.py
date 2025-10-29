@@ -108,4 +108,12 @@ class Object:
         from openscad_py.intersection import Intersection
         from openscad_py.collection import Collection
         return Intersection(child=Collection.c(objects)._add(self))
+    
+    def hull(self, objects: TUnion[list, 'Object', None] = None) -> 'Object':
+        """Get the convex hull of self and an optional object or list of objects, and return a new object.
+        See https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/Transformations#hull
+        """
+        from openscad_py.hull import Hull
+        from openscad_py.collection import Collection
+        return Hull(child=Collection.c(objects)._add(self))
 
