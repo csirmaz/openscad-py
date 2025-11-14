@@ -169,16 +169,16 @@ class Polyhedron(Object):
         for col_ix in range(1, row_len):
             m = rows - 1
             faces.append([
-                point_map[(m, col_ix-1)],
                 point_map[(m, col_ix)],
-                bottom_point_map[(m, col_ix)],
-                bottom_point_map[(m, col_ix-1)]
+                point_map[(m, col_ix-1)],
+                bottom_point_map[(m, col_ix-1)],
+                bottom_point_map[(m, col_ix)]
             ])
             faces.append([
-                point_map[(0, col_ix)],
                 point_map[(0, col_ix-1)],
-                bottom_point_map[(0, col_ix-1)],
-                bottom_point_map[(0, col_ix)]
+                point_map[(0, col_ix)],
+                bottom_point_map[(0, col_ix)],
+                bottom_point_map[(0, col_ix-1)]
             ])
             
         return cls(points=point_list, faces=faces, convexity=convexity)
