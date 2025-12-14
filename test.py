@@ -13,13 +13,27 @@ for i in range(segments):
     points.append([
         math.sin(2*math.pi/segments*i),
         math.cos(2*math.pi/segments*i),
-        i/segments
+        math.sin(i/segments*math.pi*8)/5.
     ])
+
+thickness = .05
+width = .2
+
+r = math.sqrt(thickness*thickness+width*width)/2
+init_angle = math.atan(width/thickness)/math.pi*180.
+angles = [
+    init_angle,
+    180-init_angle,
+    180+init_angle,
+    -init_angle
+]
+
 #print(points)
 print(PathTube(
     points=points,
-    radius=lambda p_index, r_index: (r_index % 2)*.1 + .1,
-    fn=10,
-    make_torus=False,
-    init_seam_angle=45
+    radius=lambda p_index, r_index: (r, angles[r_index]),
+    #radius=.1,
+    fn=4,
+    make_torus=True,
+    init_seam_angle=90
 ).process().render())
