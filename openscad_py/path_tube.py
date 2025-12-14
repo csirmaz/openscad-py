@@ -11,19 +11,39 @@ from openscad_py.polyhedron import Polyhedron
 class PathTube(Object):
     """Creates a tube-like or toroid polyhedron from a path (list of points)."""
 
-    def __init__(self, points: List[TUnion[list, Point]], radius: TUnion[float, list], fn: int, make_torus: bool = False, convexity: int = 10):
+    def __init__(
+        self, 
+        points: List[TUnion[list, Point]], 
+        radius: TUnion[float, list, callable], 
+        fn: int, 
+        make_torus: bool = False, 
+        init_seam_angle: float = 0.,
+        convexity: int = 10
+    ):
         """
         Arguments:
             - points: The list of points
-            - radius: A float or a list of floats for each point
+            - radius: 
+                - a float for uniform radius
+                - a list of floats for each point along the path
+                - a callable that returns the radius given (p_index, r_index) where
+                    p_index is the position along the path and r_index is the position along the ring
+                    [0, fn)
             - fn: int, The number of sides
             - make_torus: bool, Whether to make a torus instead of a pipe with ends. Warning: the last segment may be twisted.
+            - init_seam_angle: Rotate the seam by this many degrees
             - convexity: see openscad
         """
         self.points = [Point.c(p) for p in points]
-        self.radii = radius if isinstance(radius, list) else [radius for p in points]
+        if isinstance(radius, list):
+            self.radius_fn = lambda p_index, r_index: radius[p_index]
+        elif callable(radius):
+            self.radius_fn = radius
+        else:
+            self.radius_fn = lambda p_index, r_index: radius
         self.fn = fn
         self.make_torus = make_torus
+        self.init_seam_angle = init_seam_angle
         self.convexity = convexity
 
     def process(self, debug: bool = False) -> Polyhedron:
@@ -43,10 +63,17 @@ class PathTube(Object):
                 seam = seam.norm()
                 seam2 = v.cross(seam).norm()
                 if debug: print(f"//Start. v={v.render()} seam={seam.render()} seam2={seam2.render()}")
+                if self.init_seam_angle != 0:
+                    old_seam = seam
+                    old_seam2 = seam2
+                    seam_angle = self.init_seam_angle / 180. * math.pi
+                    seam = math.cos(seam_angle) * old_seam + math.sin(seam_angle) * old_seam2
+                    seam2 = - math.sin(seam_angle) * old_seam + math.cos(seam_angle) * old_seam2
+                    if debug: print(f"//Rotated. v={v.render()} seam={seam.render()} seam2={seam2.render()}")
                 points = []
                 for i in range(self.fn):
                     a = math.pi*2*i/self.fn
-                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radii[ix] + point)
+                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radius_fn(ix, i) + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
@@ -58,7 +85,7 @@ class PathTube(Object):
                 points = []
                 for i in range(self.fn):
                     a = math.pi*2*i/self.fn
-                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radii[ix] + point)
+                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radius_fn(ix, i) + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
@@ -86,7 +113,7 @@ class PathTube(Object):
                 
                 if ix == 0:
                     # We just choose a seam when making a torus
-                    seam_angle = 0
+                    seam_angle = self.init_seam_angle / 180. * math.pi
                 else:
                     # The new seam on vb (seam_b) has the same angle to vb_inner as it had on va to va_inner
                     seam_angle = seam.angle(va_inner, mode="rad")
@@ -111,7 +138,7 @@ class PathTube(Object):
                 for i in range(self.fn):
                     # We draw the ellipse according to long_inner and short, but use seam_angle to get the right points
                     a = math.pi*2*i/self.fn + seam_angle
-                    points.append((long_inner*math.cos(a) + short*math.sin(a))*self.radii[ix] + point)
+                    points.append((long_inner*math.cos(a) + short*math.sin(a))*self.radius_fn(ix, i) + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
