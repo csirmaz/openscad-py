@@ -26,7 +26,7 @@ class PathTube(Object):
             - radius: 
                 - a float for uniform radius
                 - a list of floats for each point along the path
-                - a callable that returns the radius given (p_index, r_index) where
+                - a callable that returns the radius and the angle (in degrees) given (p_index, r_index) where
                     p_index is the position along the path and r_index is the position along the ring
                     [0, fn)
             - fn: int, The number of sides
@@ -35,13 +35,16 @@ class PathTube(Object):
             - convexity: see openscad
         """
         self.points = [Point.c(p) for p in points]
-        if isinstance(radius, list):
-            self.radius_fn = lambda p_index, r_index: radius[p_index]
-        elif callable(radius):
-            self.radius_fn = radius
-        else:
-            self.radius_fn = lambda p_index, r_index: radius
         self.fn = fn
+        if isinstance(radius, list):
+            self.radius_fn = lambda p_index, r_index: (radius[p_index], r_index * 2 * math.pi / fn)
+        elif callable(radius):
+            def radius_fn_repl(p_index, r_index):
+                ret = radius(p_index, r_index)
+                return (ret[0], ret[1] / 180. * math.pi)
+            self.radius_fn = radius_fn_repl
+        else:
+            self.radius_fn = lambda p_index, r_index: (radius, r_index * 2 * math.pi / fn)
         self.make_torus = make_torus
         self.init_seam_angle = init_seam_angle
         self.convexity = convexity
@@ -72,8 +75,8 @@ class PathTube(Object):
                     if debug: print(f"//Rotated. v={v.render()} seam={seam.render()} seam2={seam2.render()}")
                 points = []
                 for i in range(self.fn):
-                    a = math.pi*2*i/self.fn
-                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radius_fn(ix, i) + point)
+                    a_radius, a = self.radius_fn(ix, i)
+                    points.append((seam*math.cos(a) + seam2*math.sin(a))*a_radius + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
@@ -84,8 +87,8 @@ class PathTube(Object):
                 if debug: print(f"//End. v={v.render()} seam={seam.render()} seam2={seam2.render()}")
                 points = []
                 for i in range(self.fn):
-                    a = math.pi*2*i/self.fn
-                    points.append((seam*math.cos(a) + seam2*math.sin(a))*self.radius_fn(ix, i) + point)
+                    a_radius, a = self.radius_fn(ix, i)
+                    points.append((seam*math.cos(a) + seam2*math.sin(a))*a_radius + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
@@ -137,8 +140,9 @@ class PathTube(Object):
                 points = []
                 for i in range(self.fn):
                     # We draw the ellipse according to long_inner and short, but use seam_angle to get the right points
-                    a = math.pi*2*i/self.fn + seam_angle
-                    points.append((long_inner*math.cos(a) + short*math.sin(a))*self.radius_fn(ix, i) + point)
+                    a_radius, a = self.radius_fn(ix, i)
+                    a += seam_angle
+                    points.append((long_inner*math.cos(a) + short*math.sin(a))*a_radius + point)
                 points_rows.append(points)
                 if debug: print(f"//  Row: {', '.join([p.render() for p in points])}")
                 
