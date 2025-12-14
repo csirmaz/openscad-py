@@ -112,7 +112,14 @@ class Point:
         """
         r = self.dot(p)
         r = r / self.length() / p.length()
-        r = math.acos(r)
+        if r > 1. and r < 1. + EPSILON:
+            r = 1.
+        if r < -1. and r > - 1. - EPSILON:
+            r = -1.
+        try:
+            r = math.acos(r)
+        except ValueError as e:
+            raise ValueError(f"Point.angle(self={self.render()}, p={self.render()}), r={r}, error: {e}")
         if mode == "rad":
             return r
         if mode == "deg":
